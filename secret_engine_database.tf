@@ -19,12 +19,7 @@ resource "vault_database_secret_backend_role" "my_postgres_read_only" {
   backend             = vault_mount.database.path
   name                = "my-postgres-read-only"
   db_name             = vault_database_secret_backend_connection.my_postgres.name
-  creation_statements = [
-    <<-EOF
-    CREATE ROLE "{{name}}" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}' INHERIT;
-    GRANT ro TO "{{name}}";
-    EOF
-  ]
+  creation_statements = ["CREATE ROLE \"{{name}}\" WITH LOGIN PASSWORD '{{password}}' VALID UNTIL '{{expiration}}' INHERIT; GRANT ro TO \"{{name}}\";"]
   default_ttl         = 120   # 2m
   max_ttl             = 86400 # 24h
 }
